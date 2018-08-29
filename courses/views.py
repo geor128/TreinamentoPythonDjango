@@ -13,6 +13,7 @@ def index(request):
    # return render(request, template_name,{'curso':curso})
 
 def detalhes(request, slug_curso):
+    "Esta parte exibe detalhes do curso escolhido"
     from courses.forms import ContatoForm
     curso = get_object_or_404(Course, slug=slug_curso)
     template_name = 'courses/detalhes_curso.html'
