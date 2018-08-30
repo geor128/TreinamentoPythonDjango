@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'courses',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -126,11 +127,15 @@ DEFAULT_FROM_EMAIL = 'geor128@gmail.com'#quem está enviando
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'geor128@gmail.com'
-EMAIL_HOST_PASSWORD = 'Nalkak2011@2020'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 CONTACT_EMAIL = 'geor128@gmail.com'#Destinatario
+LOGIN_URL = 'accounts:login'
+LOGOUT_REDIRECT_URL = 'core:home'
+LOGOUT_URL = 'accounts:logout'
 #STATIC_ROOT= os.path.join(BASE_DIR)
 #STATICFILES_DIRS = [
  #   os.path.join(BASE_DIR, "static"),
   #  'static/core',
 #]
+
