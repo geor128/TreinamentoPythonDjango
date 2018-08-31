@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block conteudo %}
 <div class="pure-g-r content-ribbon">
     <div class="pure-u-1">
@@ -11,7 +10,9 @@
 
                 {% for field in form %}
                 <div class="pure-control-group">
+                    {% if field.name not in 'is_staff' %}
                     {{ field.label_tag }}
+                    {% endif %}
                     {{ field }}
                     {{ field.errors }}
                 </div>

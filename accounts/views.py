@@ -9,9 +9,10 @@ def CriarUsuarios(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('/entrar/')
+
+            #form.save()
+            return redirect('/conta/entrar/')
 
     else:
-        form = RegistroForm()
+        form = RegistroForm(initial={'is_staff':True})
     return render(request, template_name,{'form':form})
