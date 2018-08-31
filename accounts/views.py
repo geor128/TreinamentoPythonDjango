@@ -9,8 +9,7 @@ def CriarUsuarios(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
-
-            #form.save()
+            form.save()
             return redirect('/conta/entrar/')
 
     else:
