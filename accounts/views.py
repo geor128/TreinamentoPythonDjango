@@ -1,4 +1,5 @@
-from accounts.forms import RegistroForm
+from accounts.forms import RegistroForm, EditForm, FormEditPassword
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -40,7 +41,7 @@ def CriarUsuarios(request):
 def Sair(request):
     logout(request)
     return redirect(settings.LOGOUT_URL)
-
+@login_required
 def Dashboard(request):
     template_name = 'accounts/dashboard.html'
 
@@ -48,10 +49,32 @@ def Dashboard(request):
 
 def Edit(request):
     template_name = 'accounts/edit.html'
-    usuario = User.objects.get(username=request.user)
-    return render(request, template_name,{'nome':'Jobileia'})
+    context = {}
+    if request.method == 'POST':
+        form = EditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            form = EditForm(instance=request.user)
+            context['success'] = True
+    else:
+        #form = EditForm(initial={'username':user.username,'email':user.email,'first_name':user.first_name,'last_name':user.last_name})
+        form = EditForm(instance=request.user)
+    context['form'] = form
+    return render(request, template_name,context)
 
 def EditPassword(request):
     template_name = 'accounts/edit_password.html'
-
-    return render(request, template_name,{'nome':'Jobileia'})
+    context = {}
+    if request.method == 'POST':
+        form = FormEditPassword(request.POST, instance=request.user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(user.password)
+            user.save()
+            form = FormEditPassword()
+            context['success'] = True
+    else:
+        #form = EditForm(initial={'username':user.username,'email':user.email,'first_name':user.first_name,'last_name':user.last_name})
+        form = FormEditPassword()
+    context['form'] = form
+    return render(request, template_name, context)

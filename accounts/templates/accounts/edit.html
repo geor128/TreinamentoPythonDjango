@@ -1,7 +1,7 @@
 {% extends "accounts/dashboard.html" %}
 
 {% block breadcrumb %}
-    {{ block.super }}
+    {{ block.super }}{# Chama um conteudo por padrão que está no breadcrumb #}
     <li>/</li>
     <li><a href="{% url 'accounts:edit' %}">Editar Conta</a></li>
 {% endblock %}
