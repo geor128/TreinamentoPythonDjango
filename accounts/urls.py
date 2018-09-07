@@ -1,4 +1,4 @@
-from accounts.views import CriarUsuarios, Sair
+from accounts.views import CriarUsuarios, Sair, Edit, EditPassword
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from accounts.views import Dashboard
@@ -11,6 +11,8 @@ urlpatterns = [
     #path('profile/', index, name='profile'),
     path('cadastrar/', CriarUsuarios, name='cadastrar'),
     path('sair/', Sair, name='sair'),
+    path('edit/', Edit, name='edit'),
+    path('edit_passsword/', EditPassword, name='edit_password'),
 
 ]
 

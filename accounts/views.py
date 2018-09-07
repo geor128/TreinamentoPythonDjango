@@ -44,4 +44,14 @@ def Sair(request):
 def Dashboard(request):
     template_name = 'accounts/dashboard.html'
 
-    return(request, template_name)
+    return render(request, template_name,{'nome':'Jobileia'})
+
+def Edit(request):
+    template_name = 'accounts/edit.html'
+    usuario = User.objects.get(username=request.user)
+    return render(request, template_name,{'nome':'Jobileia'})
+
+def EditPassword(request):
+    template_name = 'accounts/edit_password.html'
+
+    return render(request, template_name,{'nome':'Jobileia'})
