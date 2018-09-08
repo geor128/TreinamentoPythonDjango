@@ -46,7 +46,7 @@ def Dashboard(request):
     template_name = 'accounts/dashboard.html'
 
     return render(request, template_name,{'nome':'Jobileia'})
-
+@login_required()
 def Edit(request):
     template_name = 'accounts/edit.html'
     context = {}
@@ -78,7 +78,7 @@ def Edit(request):
         form = FormEditPassword()
     context['form'] = form
     return render(request, template_name, context)'''
-
+@login_required()
 def EditPassword(request):
     template_name = 'accounts/edit_password.html'
     context = {}
