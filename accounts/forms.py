@@ -50,13 +50,13 @@ class EditForm(forms.ModelForm):
             raise forms.ValidationError('Já existe usuário com esse email')
         return email
 
-class FormEditPassword(forms.ModelForm):
+'''class FormEditPassword(forms.ModelForm):
     #password = forms.CharField(widget=forms.PasswordInput)#maneira 1 de aparecer asterisco
     class Meta:
         model = User
         fields = ['password']
         widgets = {
             'password': forms.PasswordInput(),#maneira 2 de aparecer asteriscos
-        }
+        }'''
 
 

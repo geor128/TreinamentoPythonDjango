@@ -1,6 +1,6 @@
-from accounts.forms import RegistroForm, EditForm, FormEditPassword
+from accounts.forms import RegistroForm, EditForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -62,7 +62,7 @@ def Edit(request):
     context['form'] = form
     return render(request, template_name,context)
 
-def EditPassword(request):
+'''def EditPassword(request):
     template_name = 'accounts/edit_password.html'
     context = {}
     if request.method == 'POST':
@@ -76,5 +76,18 @@ def EditPassword(request):
     else:
         #form = EditForm(initial={'username':user.username,'email':user.email,'first_name':user.first_name,'last_name':user.last_name})
         form = FormEditPassword()
+    context['form'] = form
+    return render(request, template_name, context)'''
+
+def EditPassword(request):
+    template_name = 'accounts/edit_password.html'
+    context = {}
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST , user=request.user)
+        if form.is_valid():
+            form.save()
+            context['success'] = True
+    else:
+        form = PasswordChangeForm(user=request.user)
     context['form'] = form
     return render(request, template_name, context)
