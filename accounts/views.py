@@ -1,14 +1,16 @@
-from accounts.forms import RegistroForm, EditForm
+from accounts.forms import RegistroForm, EditForm, RedefinirSenhaForm
+from accounts.models import RedefinirSenha
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout
-from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.shortcuts import render, redirect, get_object_or_404
 from simplemooc import settings
+from core.utils import generate_hash_key
 from django.contrib.auth import views as auth_views
 from django.views.generic import FormView
 # Create your views here.
+User = get_user_model()
 
 '''def CriarUsuarios(request):
     template_name = 'accounts/register.html'
@@ -38,6 +40,24 @@ def CriarUsuarios(request):
         form = RegistroForm()
     return render(request, template_name,{'form':form})
 
+def ResetarPassword(request):
+    template_name = 'accounts/redefinirsenha.html'
+    context = {}
+    form = RedefinirSenhaForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+    context['form'] = form
+    return render(request, template_name, context)
+def ResetarPasswordConfirmar(request, key):
+    template_name = 'accounts/redefinir_senha_confirmar.html'
+    context = {}
+    reset = get_object_or_404(RedefinirSenha, key=key)
+    form = SetPasswordForm(user=reset.nome, data=request.POST or None)
+    if form.is_valid():
+        form.save()
+        context['success'] = True
+    context['form']= form
+    return render(request, template_name, context)
 def Sair(request):
     logout(request)
     return redirect(settings.LOGOUT_URL)
