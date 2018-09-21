@@ -1,9 +1,11 @@
 from accounts.forms import RegistroForm, EditForm, RedefinirSenhaForm
 from accounts.models import RedefinirSenha
+from courses.models import Inscricao
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from simplemooc import settings
 from core.utils import generate_hash_key
@@ -63,9 +65,10 @@ def Sair(request):
     return redirect(settings.LOGOUT_URL)
 @login_required
 def Dashboard(request):
+    inscricoes = Inscricao.objects.filter(nome=request.user)
     template_name = 'accounts/dashboard.html'
 
-    return render(request, template_name,{'nome':'Jobileia'})
+    return render(request, template_name,{'inscricoes':inscricoes})
 @login_required()
 def Edit(request):
     template_name = 'accounts/edit.html'
@@ -74,8 +77,9 @@ def Edit(request):
         form = EditForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            form = EditForm(instance=request.user)
-            context['success'] = True
+            #form = EditForm(instance=request.user)
+            messages.success(request,'Os dados da sua conta foram alterados com sucesso!!!')
+            return redirect('accounts:dashboard')
     else:
         #form = EditForm(initial={'username':user.username,'email':user.email,'first_name':user.first_name,'last_name':user.last_name})
         form = EditForm(instance=request.user)

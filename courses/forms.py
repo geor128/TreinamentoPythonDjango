@@ -1,4 +1,5 @@
 from courses.mail import send_mail_template
+from courses.models import Inscricao
 from django import forms
 from django.core.mail import send_mail
 from django.conf import settings
@@ -21,3 +22,7 @@ class ContatoForm(forms.Form):
         send_mail_template(
             subject,template_name ,context, [settings.CONTACT_EMAIL]
         )
+'''class InscriçãoForm(forms.ModelForm):
+    class Meta:
+        model = Inscricao
+        fields = '''
