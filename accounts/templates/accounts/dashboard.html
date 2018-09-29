@@ -5,31 +5,52 @@
     <div class="pure-u-1">
         <ul class="breadcrumb">
             {% block breadcrumb %}
-            <li><a href="{% url 'accounts:dashboard' %}">Meu Painel</a></li>
+                <li><a href="#">Painel</a></li>
+                <li>/</li>
+                <li><a href="{% url 'accounts:edit' %}">Editar Conta</a></li>
             {% endblock %}
         </ul>
     </div>
     <div class="pure-u-1-3">
         <div class="pure-menu pure-menu-open">
             <ul>
-             {% meu_curso user %}
+                <li class="pure-menu-heading">
+                       <b>Bem-vindo, {{ user }}</b>
+                </li>
 
-             {#     {% for inscrito in inscricoes %} #}
-              {#    <li><a href="#">{{ inscrito.curso }}</a></li> #}
-               {#       {% empty %} #}
-                 {#     <li>Você não está inscrito em nenhum curso</li> #}
-               {#   {% endfor %} #}
-                <li class="pure-menu-heading"><b>Minha Conta</b></li>
-                <li><a href="{% url 'accounts:edit' %}">Editar Conta</a></li>
-                <li><a href="{% url 'accounts:edit_password' %}">Editar Senha</a></li>
+                {% block menu_options %}
+                 {% meu_curso user %}
+
+                     {#     {% for inscrito in inscricoes %} #}
+                      {#    <li><a href="#">{{ inscrito.curso }}</a></li> #}
+                       {#       {% empty %} #}
+                         {#     <li>Você não está inscrito em nenhum curso</li> #}
+                       {#   {% endfor %} #}
+                        <li class="pure-menu-heading"><b>Minha Conta</b></li>
+                        <li><a href="{% url 'accounts:edit' %}"><i class="fas fa-cog"></i> Editar Conta</a></li>
+                        <li><a href="{% url 'accounts:edit_password' %}"><i class="fas fa-key"></i> Editar Senha</a></li>
+                {% endblock %}
             </ul>
         </div>
     </div>
     <div class="pure-u-2-3">
         <div class="inner">
             {% block dashboard_content %}
-            <p><strong>Usuário</strong>: {{ user }}</p>
-            <p><strong>E-mail</strong>: {{ user.email }}</p>
+            <h2>Meus Cursos</h2>
+                {% for inscrito in inscricoes %}
+                <div class="well">
+                    <h3>{{ inscrito.curso }} {{ inscrito.created_at|date:'d/m/Y'|default:'Sem data' }}</h3>
+                    <p>{{ inscrito.curso.name|linebreaks }}</p>
+                    <div class="pure-controls">
+                        <a href="{% url 'courses:announcements' inscrito.curso.slug %}" class="pure-button pure-button-primary">Acessar</a>
+                        <a href="#" class="pure-button button-error">Cancelar</a>
+                    </div>
+                </div>
+                    {% empty %}
+                <aside class="pure-u-1">
+                    <p>Nenhum curso inscrito</p>
+                </aside>
+                {% endfor %}
             {% endblock %}
         </div>
     </div>

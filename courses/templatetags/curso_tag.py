@@ -13,3 +13,7 @@ def meu_curso(nome):
     }
 
     return context
+# não é compativel com Django 2.0
+'''@register.assignment_tag
+def load_meus_cursos(nome):
+    return Inscricao.objects.filter(nome=nome)'''

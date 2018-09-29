@@ -55,6 +55,9 @@ class Inscricao(models.Model):
     def active(self):
         self.status = 1
         self.save()
+    def is_aprovado(self):
+        return self.status == 1
+
     class Meta:
         verbose_name = 'Inscrição'
         verbose_name_plural = 'Inscrições'

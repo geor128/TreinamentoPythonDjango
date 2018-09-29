@@ -36,13 +36,26 @@ def matricular_curso(request, curso):
     inscricao.save()
     return redirect('accounts:dashboard')'''
 
-@login_required
+@login_required#enrollment
 def matricular_curso(request, slug_curso):
     curso = get_object_or_404(Course, slug=slug_curso)
-    inscricao, create = Inscricao.objects.get_or_create(nome=request.user, curso=curso )
+    inscricao, create = Inscricao.objects.get_or_create(nome=request.user, curso=curso )#Enrrolment
     if create:
         inscricao.active()
         messages.success(request, 'Você foi inscrito no curso com sucesso')
     else:
         messages.info(request, 'Você já está inscrito no curso')
     return redirect('accounts:dashboard')
+
+@login_required
+def announcements(request, slug_curso):
+    curso = get_object_or_404(Course, slug=slug_curso)
+    if not request.user.is_staff:
+        inscricao = get_object_or_404(Inscricao, nome=request.user, curso=curso)
+        if not inscricao.is_aprovado():
+            messages.error(request, 'A sua inscrição está pendente')
+            return redirect('accounts:dashboard')
+    template = 'courses/announcements.html'
+    context = {'curso': curso}
+    return render(request, template, context)
+

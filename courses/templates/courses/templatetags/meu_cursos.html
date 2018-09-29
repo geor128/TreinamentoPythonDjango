@@ -1,6 +1,6 @@
-<li class="pure-menu-heading"><b>Meus Cursos</b></li>
+<li class="pure-menu-heading"><b>Cursos</b></li>
 {% for inscricao in inscricoes %}
-<li><a href="#">{{ inscricao.curso }}</a></li>
+<li><a href="{% url 'courses:announcements' inscricao.curso.slug %}"><i class="fas fa-book"></i> {{ inscricao.curso }}</a></li>
 {% empty %}
 <li>Nenhum curso encontrado</li>
 {% endfor %}
