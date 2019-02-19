@@ -47,6 +47,21 @@ def matricular_curso(request, slug_curso):
         messages.info(request, 'Você já está inscrito no curso')
     return redirect('accounts:dashboard')
 
+@login_required()
+def desmatricular_curso(request, slug_curso): #desfazer inscrição
+    curso = get_object_or_404(Course, slug=slug_curso)
+    inscricao = get_object_or_404(Inscricao, nome=request.user,curso=curso)
+    if request.method == 'POST':
+        inscricao.delete()
+        messages.success(request, 'Sua inscrição foi cancelada com sucesso!!!!!')
+        return redirect('accounts:dashboard')
+    template = 'courses/undo_enrollment.html'
+    context = {
+        'inscricao':inscricao,
+        'curso':curso,
+    }
+    return render(request, template, context)
+
 @login_required
 def announcements(request, slug_curso):
     curso = get_object_or_404(Course, slug=slug_curso)

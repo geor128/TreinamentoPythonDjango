@@ -5,9 +5,9 @@
     <div class="pure-u-1">
         <ul class="breadcrumb">
             {% block breadcrumb %}
-                <li><a href="#">Painel</a></li>
+                <li><a href="{% url 'accounts:dashboard' %}">Meu Painel</a></li>
                 <li>/</li>
-                <li><a href="{% url 'accounts:edit' %}">Editar Conta</a></li>
+{#                <li><a href="{% url 'accounts:edit' %}">Editar Conta</a></li>#}
             {% endblock %}
         </ul>
     </div>
@@ -43,7 +43,7 @@
                     <p>{{ inscrito.curso.name|linebreaks }}</p>
                     <div class="pure-controls">
                         <a href="{% url 'courses:announcements' inscrito.curso.slug %}" class="pure-button pure-button-primary">Acessar</a>
-                        <a href="#" class="pure-button button-error">Cancelar</a>
+                        <a href="{% url 'courses:desmatricular_curso' inscrito.curso.slug%}" class="pure-button button-error">Cancelar</a>
                     </div>
                 </div>
                     {% empty %}
