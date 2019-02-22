@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
+
+from courses.forms import CommentForm
 from courses.models import Course, Inscricao
 # Create your views here.
 def index(request):
@@ -85,11 +87,21 @@ def show_announcements(request, slug_curso, pk):
         if not inscricao.is_aprovado():
             messages.error(request, 'A sua inscrição está pendente')
             return redirect('accounts:dashboard')
-    template = 'courses/show_announcement.html'
     announcement = get_object_or_404(curso.announcement.all(), pk=pk)
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.announcement = announcement
+        comment.user = request.user
+        comment.save()
+        form = CommentForm()
+        messages.success(request, 'Seu comentário foi enviado com sucesso!!!')
+    template = 'courses/show_announcement.html'
+
     context = {
         'curso': curso,
-        'announcements': announcement
+        'announcements': announcement,
+        'form': form
     }
     return render(request, template, context)
 

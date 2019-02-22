@@ -3,6 +3,7 @@ from courses.models import Inscricao
 from django import forms
 from django.core.mail import send_mail
 from django.conf import settings
+from courses.models import Comment
 
 class ContatoForm(forms.Form):
     nome = forms.CharField(label='Nome:', max_length=100)
@@ -26,3 +27,9 @@ class ContatoForm(forms.Form):
     class Meta:
         model = Inscricao
         fields = '''
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['comment']
